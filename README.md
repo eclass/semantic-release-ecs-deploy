@@ -1,25 +1,25 @@
-# @eclass/semantic-release-custom-plugin
+# @eclass/semantic-release-ecs-deploy
 
-[![npm](https://img.shields.io/npm/v/@eclass/semantic-release-custom-plugin.svg)](https://www.npmjs.com/package/@eclass/semantic-release-custom-plugin)
-[![build](https://img.shields.io/travis/eclass/semantic-release-custom-plugin.svg)](https://travis-ci.org/eclass/semantic-release-custom-plugin)
-[![downloads](https://img.shields.io/npm/dt/@eclass/semantic-release-custom-plugin.svg)](https://www.npmjs.com/package/@eclass/semantic-release-custom-plugin)
-[![dependencies](https://img.shields.io/david/eclass/semantic-release-custom-plugin.svg)](https://david-dm.org/eclass/semantic-release-custom-plugin)
-[![devDependency Status](https://img.shields.io/david/dev/eclass/semantic-release-custom-plugin.svg)](https://david-dm.org/eclass/semantic-release-custom-plugin#info=devDependencies)
-[![Coverage Status](https://coveralls.io/repos/github/eclass/semantic-release-custom-plugin/badge.svg?branch=master)](https://coveralls.io/github/eclass/semantic-release-custom-plugin?branch=master)
-[![Maintainability](https://api.codeclimate.com/v1/badges/f84f0bcb39c9a5c5fb99/maintainability)](https://codeclimate.com/github/eclass/semantic-release-custom-plugin/maintainability)
+[![npm](https://img.shields.io/npm/v/@eclass/semantic-release-ecs-deploy.svg)](https://www.npmjs.com/package/@eclass/semantic-release-ecs-deploy)
+![Node.js CI](https://github.com/eclass/semantic-release-docker/workflows/Node.js%20CI/badge.svg)
+[![downloads](https://img.shields.io/npm/dt/@eclass/semantic-release-ecs-deploy.svg)](https://www.npmjs.com/package/@eclass/semantic-release-ecs-deploy)
+[![dependencies](https://img.shields.io/david/eclass/semantic-release-ecs-deploy.svg)](https://david-dm.org/eclass/semantic-release-ecs-deploy)
+[![devDependency Status](https://img.shields.io/david/dev/eclass/semantic-release-ecs-deploy.svg)](https://david-dm.org/eclass/semantic-release-ecs-deploy#info=devDependencies)
+[![Coverage Status](https://coveralls.io/repos/github/eclass/semantic-release-ecs-deploy/badge.svg?branch=master)](https://coveralls.io/github/eclass/semantic-release-ecs-deploy?branch=master)
+[![Maintainability](https://api.codeclimate.com/v1/badges/f84f0bcb39c9a5c5fb99/maintainability)](https://codeclimate.com/github/eclass/semantic-release-ecs-deploy/maintainability)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 
-> [semantic-release](https://github.com/semantic-release/semantic-release) plugin to deploy app
+> [semantic-release](https://github.com/semantic-release/semantic-release) plugin to deploy ecs services
 
 | Step               | Description                                                                                 |
 |--------------------|---------------------------------------------------------------------------------------------|
-| `verifyConditions` | Verify the presence of the `CUSTOM_ENV` environment variable. |
-| `publish`          | Deploy app.                                                                   |
+| `verifyConditions` | Verify the presence of the `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` environment variable. |
+| `publish`          | Upgrade service in aws ecs.                                                                   |
 
 ## Install
 
 ```bash
-npm i -D @eclass/semantic-release-custom-plugin
+npm i -D @eclass/semantic-release-ecs-deploy
 ```
 
 ## Usage
@@ -33,7 +33,13 @@ The plugin can be configured in the [**semantic-release** configuration file](ht
     "@semantic-release/npm",
     "@semantic-release/git",
     "@semantic-release/gitlab",
-    "@eclass/semantic-release-custom-plugin"
+    [
+      "@eclass/semantic-release-ecs-deploy",
+      {
+        "cluster": "mycluster",
+        "service": "myservice",
+      }
+    ]
   ]
 }
 ```
@@ -44,7 +50,15 @@ The plugin can be configured in the [**semantic-release** configuration file](ht
 
 | Variable             | Description                                                       |
 | -------------------- | ----------------------------------------------------------------- |
-| `CUSTOM_ENV` | A custom env var |
+| `AWS_ACCESS_KEY_ID` | aws access key id |
+| `AWS_SECRET_ACCESS_KEY` | aws secret access key |
+
+### Options
+
+| Variable             | Description                                                       |
+| -------------------- | ----------------------------------------------------------------- |
+| `cluster` | Name of cluster in aws ecs. Required. |
+| `service` | Name of service in aws ecs. Required. |
 
 ### Examples
 
@@ -55,7 +69,13 @@ The plugin can be configured in the [**semantic-release** configuration file](ht
     "@semantic-release/npm",
     "@semantic-release/git",
     "@semantic-release/gitlab",
-    "@eclass/semantic-release-custom-plugin"
+    [
+      "@eclass/semantic-release-ecs-deploy",
+      {
+        "cluster": "mycluster",
+        "service": "myservice",
+      }
+    ]
   ]
 }
 ```
