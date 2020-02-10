@@ -1,6 +1,6 @@
 {
   "name": "@eclass/semantic-release-ecs-deploy",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "semantic-release plugin to deploy ecs services",
   "main": "src/index.js",
   "scripts": {
