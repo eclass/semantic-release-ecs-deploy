@@ -59,6 +59,8 @@ The plugin can be configured in the [**semantic-release** configuration file](ht
 | -------------------- | ----------------------------------------------------------------- |
 | `cluster` | Name of cluster in aws ecs. Required. |
 | `service` | Name of service in aws ecs. Required. |
+| `timeout` | Timeout in seconds to wait upgrade. Optional. Default `300` |
+| `ignoreWarnings` | Flag to ignore warnings in upgrade. Optional. Default `false` |
 
 ### Examples
 
@@ -74,6 +76,8 @@ The plugin can be configured in the [**semantic-release** configuration file](ht
       {
         "cluster": "mycluster",
         "service": "myservice",
+        "timeout": -1,
+        "ignoreWarnings": true
       }
     ]
   ]

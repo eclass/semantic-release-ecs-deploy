@@ -9,4 +9,6 @@ export interface Context extends SemanticReleaseContext {
 export interface Config extends SemanticReleaseConfig {
   cluster?: string
   service?: string
+  timeout?: number
+  ignoreWarnings?: boolean
 }
