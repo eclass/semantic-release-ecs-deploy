@@ -1,3 +1,15 @@
+# [2.0.0](https://github.com/eclass/semantic-release-ecs-deploy/compare/v1.0.6...v2.0.0) (2020-02-13)
+
+
+### Features
+
+* **publish:** deploy app with new version ([bbfb9c8](https://github.com/eclass/semantic-release-ecs-deploy/commit/bbfb9c851bed41de8fe5473358a36ada5df1b7f5))
+
+
+### BREAKING CHANGES
+
+* **publish:** By default the deployments wait status READY of new deployments. To skip this set timeout -1 and ignoreWarnings false in plugin config.
+
 ## [1.0.6](https://github.com/eclass/semantic-release-ecs-deploy/compare/v1.0.5...v1.0.6) (2020-02-12)
 
 
