@@ -1,3 +1,10 @@
+## [2.0.9](https://github.com/eclass/semantic-release-ecs-deploy/compare/v2.0.8...v2.0.9) (2020-02-25)
+
+
+### Bug Fixes
+
+* **deps:** update dependency aws-sdk to v2.626.0 ([2e75ed6](https://github.com/eclass/semantic-release-ecs-deploy/commit/2e75ed6746f8a5b712d73ca52279de640ab7049f))
+
 ## [2.0.8](https://github.com/eclass/semantic-release-ecs-deploy/compare/v2.0.7...v2.0.8) (2020-02-24)
 
 
