@@ -90,9 +90,6 @@
       "@eclass:js-lib"
     ]
   },
-  "release": {
-    "extends": "@eclass/semantic-release-npm-github-config"
-  },
   "nyc": {
     "extends": "nyc-config-common"
   }
