@@ -61,6 +61,45 @@ module.exports = new Map([
     })
   ],
   [
+    'ENOSERVICES',
+    /**
+     * @param {Context} ctx -
+     * @returns {SemanticReleaseError} -
+     */
+    ctx => ({
+      message: 'No services specified.',
+      details: `The [services options](${linkify(
+        'README.md#options'
+      )}), if defined, must be a array of service object.`
+    })
+  ],
+  [
+    'ENOSERVICE',
+    /**
+     * @param {Context} ctx -
+     * @returns {SemanticReleaseError} -
+     */
+    ctx => ({
+      message: 'No service name specified.',
+      details: `The [service.service options](${linkify(
+        'README.md#options'
+      )}), if defined, must be a string with service name.`
+    })
+  ],
+  [
+    'ENOCLUSTER',
+    /**
+     * @param {Context} ctx -
+     * @returns {SemanticReleaseError} -
+     */
+    ctx => ({
+      message: 'No cluster name specified.',
+      details: `The [service.cluster options](${linkify(
+        'README.md#options'
+      )}), if defined, must be a string with cluster name.`
+    })
+  ],
+  [
     'EDEPLOY',
     /**
      * @param {Context} ctx -

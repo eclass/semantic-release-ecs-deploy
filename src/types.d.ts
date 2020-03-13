@@ -6,9 +6,13 @@ export interface Context extends SemanticReleaseContext {
   message?: string
 }
 
-export interface Config extends SemanticReleaseConfig {
-  cluster?: string
-  service?: string
+export interface Service {
+  cluster: string
+  service: string
   timeout?: number
   ignoreWarnings?: boolean
+}
+
+export interface Config extends SemanticReleaseConfig {
+  services: Service[]
 }

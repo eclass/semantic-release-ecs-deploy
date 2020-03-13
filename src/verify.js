@@ -28,6 +28,17 @@ module.exports = async (pluginConfig, ctx) => {
     if (!data.credentials.secretAccessKey) {
       errors.push(getError('ENOSECRETACCESSKEY', ctx))
     }
+    if (!pluginConfig.services || pluginConfig.services.length === 0) {
+      errors.push(getError('ENOSERVICES', ctx))
+    }
+    pluginConfig.services.forEach(({ service, cluster }) => {
+      if (!service) {
+        errors.push(getError('ENOSERVICE', ctx))
+      }
+      if (!cluster) {
+        errors.push(getError('ENOCLUSTER', ctx))
+      }
+    })
     if (errors.length > 0) {
       throw new AggregateError(errors)
     }

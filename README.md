@@ -36,8 +36,12 @@ The plugin can be configured in the [**semantic-release** configuration file](ht
     [
       "@eclass/semantic-release-ecs-deploy",
       {
-        "cluster": "mycluster",
-        "service": "myservice",
+        "services": [
+          {
+            "cluster": "mycluster",
+            "service": "myservice"
+          }
+        ]
       }
     ]
   ]
@@ -57,10 +61,11 @@ The plugin can be configured in the [**semantic-release** configuration file](ht
 
 | Variable             | Description                                                       |
 | -------------------- | ----------------------------------------------------------------- |
-| `cluster` | Name of cluster in aws ecs. Required. |
-| `service` | Name of service in aws ecs. Required. |
-| `timeout` | Timeout in seconds to wait upgrade. Optional. Default `300` |
-| `ignoreWarnings` | Flag to ignore warnings in upgrade. Optional. Default `false` |
+| `services` | Array of object `service`. Required. |
+| `service`.`cluster` | Name of cluster in aws ecs. Required. |
+| `service`.`service` | Name of service in aws ecs. Required. |
+| `service`.`timeout` | Timeout in seconds to wait upgrade. Optional. Default `300` |
+| `service`.`ignoreWarnings` | Flag to ignore warnings in upgrade. Optional. Default `false` |
 
 ### Examples
 
@@ -74,10 +79,14 @@ The plugin can be configured in the [**semantic-release** configuration file](ht
     [
       "@eclass/semantic-release-ecs-deploy",
       {
-        "cluster": "mycluster",
-        "service": "myservice",
-        "timeout": -1,
-        "ignoreWarnings": true
+        "services": [
+          {
+            "cluster": "mycluster",
+            "service": "myservice",
+            "timeout": -1,
+            "ignoreWarnings": true
+          }
+        ]
       }
     ]
   ]

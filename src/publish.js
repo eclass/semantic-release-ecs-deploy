@@ -256,76 +256,76 @@ module.exports = async (pluginConfig, ctx) => {
       region
     } = await load()
     const ecs = new aws.ECS({ region, accessKeyId, secretAccessKey })
-    const service = await getService(
-      ecs,
-      pluginConfig.cluster,
-      pluginConfig.service
-    )
-    const { taskDefinition } = await ecs
-      .describeTaskDefinition({
-        taskDefinition: service.taskDefinition
-      })
-      .promise()
-    ctx.logger.log(
-      `Deploying based on task definition: ${taskDefinition.family}`
-    )
-    /** @type {import('aws-sdk').ECS.ContainerDefinitions} */
-    const containerDefinitions = taskDefinition.containerDefinitions.map(
-      containerDefinition => {
-        const imageDefinition = containerDefinition.image.split(':')
-        const image = `${imageDefinition[0]}:${ctx.nextRelease.version.trim()}`
-        ctx.logger.log(
-          `Changed ${image} of container "${containerDefinition.name}" to: "${image}" (was: "${containerDefinition.image}")`
-        )
-        return {
-          ...containerDefinition,
-          image
+    for (const _service of pluginConfig.services) {
+      const service = await getService(ecs, _service.cluster, _service.service)
+      const { taskDefinition } = await ecs
+        .describeTaskDefinition({
+          taskDefinition: service.taskDefinition
+        })
+        .promise()
+      ctx.logger.log(
+        `Deploying based on task definition: ${taskDefinition.family}`
+      )
+      /** @type {import('aws-sdk').ECS.ContainerDefinitions} */
+      const containerDefinitions = taskDefinition.containerDefinitions.map(
+        containerDefinition => {
+          const imageDefinition = containerDefinition.image.split(':')
+          const image = `${
+            imageDefinition[0]
+          }:${ctx.nextRelease.version.trim()}`
+          ctx.logger.log(
+            `Changed ${image} of container "${containerDefinition.name}" to: "${image}" (was: "${containerDefinition.image}")`
+          )
+          return {
+            ...containerDefinition,
+            image
+          }
         }
-      }
-    )
-    ctx.logger.log('Creating new task definition revision')
-    const { taskDefinition: newTaskDefinition } = await ecs
-      .registerTaskDefinition({
-        family: taskDefinition.family,
-        taskRoleArn: taskDefinition.taskRoleArn,
-        executionRoleArn: taskDefinition.executionRoleArn,
-        networkMode: taskDefinition.networkMode,
-        containerDefinitions: containerDefinitions,
-        volumes: taskDefinition.volumes,
-        placementConstraints: taskDefinition.placementConstraints,
-        requiresCompatibilities: taskDefinition.requiresCompatibilities,
-        cpu: taskDefinition.cpu,
-        memory: taskDefinition.memory,
-        pidMode: taskDefinition.pidMode,
-        ipcMode: taskDefinition.ipcMode,
-        inferenceAccelerators: taskDefinition.inferenceAccelerators
-      })
-      .promise()
-    ctx.logger.log(
-      `Successfully created revision: ${newTaskDefinition.revision}`
-    )
-    ctx.logger.log('Updating service')
-    await ecs
-      .updateService({
-        cluster: pluginConfig.cluster,
-        service: pluginConfig.service,
-        taskDefinition: newTaskDefinition.taskDefinitionArn
-      })
-      .promise()
-    ctx.logger.log(
-      `Successfully changed task definition to: ${newTaskDefinition.family}:${newTaskDefinition.revision}`
-    )
-    ctx.logger.log('Deploying new task definition')
-    const timeout = pluginConfig.timeout || 300
-    const ignoreWarnings = pluginConfig.ignoreWarnings || false
-    await waitForFinish(
-      ecs,
-      pluginConfig.cluster,
-      pluginConfig.service,
-      timeout,
-      ignoreWarnings,
-      ctx
-    )
+      )
+      ctx.logger.log('Creating new task definition revision')
+      const { taskDefinition: newTaskDefinition } = await ecs
+        .registerTaskDefinition({
+          family: taskDefinition.family,
+          taskRoleArn: taskDefinition.taskRoleArn,
+          executionRoleArn: taskDefinition.executionRoleArn,
+          networkMode: taskDefinition.networkMode,
+          containerDefinitions: containerDefinitions,
+          volumes: taskDefinition.volumes,
+          placementConstraints: taskDefinition.placementConstraints,
+          requiresCompatibilities: taskDefinition.requiresCompatibilities,
+          cpu: taskDefinition.cpu,
+          memory: taskDefinition.memory,
+          pidMode: taskDefinition.pidMode,
+          ipcMode: taskDefinition.ipcMode,
+          inferenceAccelerators: taskDefinition.inferenceAccelerators
+        })
+        .promise()
+      ctx.logger.log(
+        `Successfully created revision: ${newTaskDefinition.revision}`
+      )
+      ctx.logger.log('Updating service')
+      await ecs
+        .updateService({
+          cluster: _service.cluster,
+          service: _service.service,
+          taskDefinition: newTaskDefinition.taskDefinitionArn
+        })
+        .promise()
+      ctx.logger.log(
+        `Successfully changed task definition to: ${newTaskDefinition.family}:${newTaskDefinition.revision}`
+      )
+      ctx.logger.log('Deploying new task definition')
+      const timeout = _service.timeout || 300
+      const ignoreWarnings = _service.ignoreWarnings || false
+      await waitForFinish(
+        ecs,
+        _service.cluster,
+        _service.service,
+        timeout,
+        ignoreWarnings,
+        ctx
+      )
+    }
   } catch (err) {
     throw new AggregateError([getError('EDEPLOY', ctx)])
   }
