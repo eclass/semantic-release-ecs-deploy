@@ -88,6 +88,12 @@
   "renovate": {
     "extends": [
       "@eclass:js-lib"
+    ],
+    "packageRules": [
+      {
+        "packageNames": ["aws-sdk"],
+        "automerge": false
+      }
     ]
   },
   "nyc": {
