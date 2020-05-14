@@ -91,7 +91,9 @@
     ],
     "packageRules": [
       {
-        "packageNames": ["aws-sdk"],
+        "packageNames": [
+          "aws-sdk"
+        ],
         "automerge": false
       }
     ]
