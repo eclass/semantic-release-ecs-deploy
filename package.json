@@ -28,7 +28,7 @@
   "homepage": "https://github.com/eclass/semantic-release-ecs-deploy#readme",
   "dependencies": {
     "@semantic-release/error": "^2.1.0",
-    "aws-sdk": "2.677.0",
+    "aws-sdk": "2.678.0",
     "awscred": "1.5.0"
   },
   "devDependencies": {
